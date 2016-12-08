@@ -1,0 +1,147 @@
+Tower:
+	Tower() initializes the instance, the overloaded change the position, and position, friendliness, and type
+	If a tower is a buddy/friend then it is the tower we wish to find the path of
+
+	kill() and makedead() are the same function, different names
+	Tower type can be any char, but due to up the chain it will be limited to only the KQRBPH
+
+Node:
+	Node(), initialize
+	overloaded constructor sets the one above and to the left, and those set THIS to their down and right respectively
+	seq- sequence the node is in during the path
+	visit- whether the node has been visited during a path or not
+	enemyaom- AREA OF MOVEMENT of an enemy- either is or is not (there is no try)
+	target- whether the node is the destination of the path or not
+	oldTower- used for reverting current tower to its former state once the path has been figured
+	distance- distance from the start node (start node has one of 0)
+	pm- possible amount of moves that a knight doing the knights tour can take- is a dynamic value
+
+	~Node() if in C++ destroy the Tower and oldTower
+	setoldTower() copies the t to the old tower
+	reverttower() copies the old tower back to t
+
+	getmoves()- gives the amount of moves the piece in question can take (ie. Pawn 3, King 8, Bishop 4)
+	path(int,int)- returns the pieces cooresponding [piece]path(int,int) function
+
+	*First int is the path number, second is the distance (which must always be greater than 1)
+
+	pawnpath(int,int)- if it is a friend give it up, and if there are enemies inhabiting the upright or upleft we give them that as well (distance is not 1, returns null)
+		if is enemy, just give it the downleft and down right since we consider the board to be static
+	bishoppath(int,int)-  Path 0-upleft 1-upright 2-downright 3-downleft
+		for loop from 0 to distance going the pathway; if there is an enemy alive tower present in the previous Node, then we return Null
+	rookpath(int,int)- Path 0-up 1-right 2-down 3-left
+		for loop the same way as the bishop
+	queenpath(int,int)- 8 paths, if the path int is less than 4 return rook path, else return the bishop path
+	kingpath(int,int)- 8 paths, 0-up 1-upright 2-right 3-downright 4-down 5-downleft 6-left 7-upleft
+	knightpath(int,int)- 8 paths, 0-upright 1-rightup 2-rightdown 3-downright 4-downleft 5-leftdown
+			6-leftup 7-upleft
+	backpawnpath(int,int)- Since the pawn is the only piece that does not have a reversible path, this
+			is necessary to find the direct path as found by the Dijkstra
+			if the oldtower of the present position was not alive, then 0 will return the ability to go down;
+			else returns Null, if the oldtower was an alive enemy; then 1 and 2 return the downward diagnals of the pawn; else NULL
+	setPM()- turns the Node into a friendly knight, cycles through each possible move that can be made; init with pm <= 0
+			if the position is not visited (and not null) then pm increases by 1
+	setPM(int)- sets the pm to a basic boring value that is passed to it
+	getPM()- returns PM
+
+Board:
+		**Note- the head is not treated as anything, it is simply to the left of A[colnumber]**
+	Board(), initialize- just calls Board(8,8)
+	Board(int,int) - creates a board with the specified number of rows and columns
+	~Board() if C++ destroy the head and every other node in there
+	longname()- returns the long name given the type of the Tower such as returns King with 'K'
+	getcolsstr()- returns string of a letter of the alphabet to its cooresponding position (1 = A, 2 = B,...)
+	setup()- asks user to create the size, the tower we want the path of, enemies present, etc..
+	printch()- prints "K: King\nQ:Queen..." for the use of the user seeing them
+	printBoard()- prints the board according to what was laid out in the original document
+	printaoms()- prints the board with the addendum to it of an X if it is a position that an enemy's movement area
+			is in and a O if the friend can move there
+	printpath()- prints the sequences of each position on the board
+	findstart()- simply finds the only alive friendly tower; called at the beginning of the dijkstras
+	checkcoor()- checks if the user's entered position is true; if not, it reverses the order to see if that is true; else returns null
+	checktype()- checks if user's entered string is comparable to an actual type of chess piece/tower
+	checkyes()- sees if the user entered yes or no right
+	reset()- clears the board of everything except the present and old towers
+	reverttowers()- for each Node, we make tower t turn into the oldTower
+	clean()- for each node, set distance to infinity, it is not visited, the sequence is -1
+	setoldtowers()- for each node, we set the old tower to the current tower attributes
+	mindistance()- finds the node with the smallest distance that has not been found and returns the position of said node
+	pathquick()- clean it out, for each node- iteratively by number
+		get the mindistance, find that node, the node becomes visited
+				if said node is the target, exit the loop and return path( sequence number of the current node)
+			loop through each possible path of the tower by starting at the 0 value and increasing until it returns null
+				if the distance + 1 is less than the movement node's current distance
+					set the distance of the node to current movement's distance + 1
+					copy the tower from the current node to it's movement's node
+					set the sequenc to the current's sequence + 1
+
+	pathquickmiss()-same as above BUT in the loop of each possible path we also analyze to make sure that
+		the movement area is not enemyAOM and there is no enemy present on the platform
+		everything else remains the same
+
+	pathquickattack()-similar to the ones above, but we revert the towers to oldTower each time;
+		What we do is send the friend to the mindistance, and have it work its way backwards to the start
+		so it kills every enemy it did orginally then we base its next movement area upon
+		the same as miss BUT only if it is enemyAOM
+
+	pathquickaround()- similart to the pathquickmiss, simply just that we only avoid enemies- therefore no need to update any enemy aom
+
+	path(int)- Since we know that the final position will have the maximum number of the sequence, we put the
+		starter tower into the final position and work its way backwards through each sequence number
+		until it gets to 0; similar to that of pathquickattack; in recording each position though
+		we can get the entire pathway of the tower in question
+
+	pawnpath(int)- Somehow the seemingly easiest tower is the hardest to accomadate for...
+		It is the above path, but if the oldtower was previously an alive enemy then we look for movement towards the diagnal
+		else we go straight down til we get to the base
+
+	kpath(Node*)- returns the path of the knight to complete a tour; Passed the start value, runs updatePM() at the start
+		cycles through every possible move of the knight to find the Node with the minimum value for pm
+		if we are surrounded without any possible move to be made- we return the position (base case)
+		else we we mark the current position as visited, move the knight to the next position, and return the current position as well as the kpath(current position)
+
+	updatePM()- cycles through every Node in the board and runs setPM()
+	checkPM()- cycles through every Node in the board, if a node was unvisited then we return false, otherwise return true
+
+God:
+	God()- sets up the board and calls the board's setup
+	~God()- if C++ destroy the board
+	pathing()- calls the pathquick,quickmiss,quickattack above while clearing the board and reverting the tower in between each round
+	displaypaths()- allows the user to see the paths if they exist- only shows the ones that exist so as that if we returned a false negative, they would not see that the path does not exist for it could
+	looper()- setups up the board, displays the paths, then asks the user if they would like to redo the board or create a new one; does its respective item, then exits once it has done its duty
+	reconfig()- allows the user to change attributes of main tower, enemy towers, and position of the destination on the current board
+
+Ni:
+	Ni()- initizlies path and start variables as ""
+	~Ni()- if C++, destroy the Board
+	setup()- asks the user for the start position and board size of the knight
+	reconfig()- uses the same board as previous, but change the start position
+	compute()- runs the board's kpath algorithm and assigns the value to path
+	looper()- loops allowing the user to setup the board, change the position of the knight, and see the path of the knight's TOUR
+
+PBoard:
+	Pboard()- initializes the mvs value
+	~Pboard()- destroys the board if in C++
+	looper()- asks user for a type of puzzle they want- easy, medium, or hard; then creates the cooresponding board;
+		until the user wants to exit or gets to the destination, we let the user change the position of the knight cooresponding to the movable function
+		we count how many turns it takes and once they exit we reveal if they got to the position in the minimum number of moves or not, also allowing
+		them to see the path or redo the given board if they wish. We loop until they wish to exit
+	intToType(int)- returns the char cooresponding to a type value- 0:P,1:R,2:H,3:B,4:Q,5:K, anything else will just return an H
+	baseRand(int,int)- sets up a board with the given values for row and column, creates a random position for the target and knight;
+		if they are the same, then we redo the position of the destination
+	randEasy()- calls baseRand() on a 6x6 board and gets the values for mvs with calling the path quick
+	enemRand(int,int,int)- creates a number of enemies (1st int value) with on the board without touching either the destination,
+		main knight, or previous enemies present
+	randMed()- calls baseRand() and enemRand() on a 8x8 with 7 enemies. If the pathquickaround() is not true (when it must be by definition, but is a failsafe)
+		we redo the entire thing
+	randHard()- callse baseRand() and enemRand() on a 10x10 with 15 enemies. If the pathquickmiss() is not true then we redo the entire thing until we get a positive
+	movableEasy(string)- sees if the coordinates given are indeed a possible path for the main knight to move
+	movableMed(string)- runs movableEasy, also checks if there is an enemy present in the said position
+	movableHard(string)- runs movableMed, also checks if the position is enemy area of attack
+
+Waffle:
+	Waffle()- does nothing
+	~Waffle()- does nothing
+	login()- asks the user for the password for the whopper, the password is "JOSHUA" (WAR GAMES REFERENCE HEYOOOO)
+	looping()- welcomes dr falken, lets the user choose which one of the above items they wish to do- path finder, path finding game, or knights tour
+		create a God/Pboard/Ni, then run their respective looper and destroy the instance once finished; then exit once the user has had enought

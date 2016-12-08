@@ -1,0 +1,227 @@
+-------USE CASE ANALYSIS------
+
+*input is denoted by "->"*
+
+____PATH FINDING ALGORITHM____
+
+User is a: Chess Player
+
+This person would simply want to know the quickest path to somewhere and figure a way to build around it
+
+Please enter the size of board you want:
+->8x8
+What kind of piece do you want to see the movement of:
+->Knight
+Where is the Knight located:
+->G1
+Are there other enemies present:
+->Yes
+Please go one by one with all of them, -1 to exit:
+->King
+What Position is the king at:
+->B3
+Another enemy piece present:
+->Queen
+What position is the queen at:
+->C4
+Another enemy piece present:
+->-1
+What is the final destination of the Knight in question:
+->B3
+Computing...
+Computations finished, 1 path options available
+1: Quickest Path
+Which would you like to see:
+->1
+
+--Prints all the board out corresponding to the path--
+-Stops him along the way to press enter or such for a play by play-
+
+Would you like to see another path (-1 to exit):
+1:Quickest Path
+->-1
+Would you like to find a new path?
+->No
+Have a good day
+
+
+
+User is a: AI Guy
+
+This person would be curious with every path available to the piece and want to know which ways have been chosen
+
+Please enter the size of board you want:
+->5x10
+What kind of piece do you want to see the movement of:
+->Knight
+Where is the Knight located:
+->D3
+Are there other enemies present:
+->No
+What is the final destination of the Knight in question:
+->K2
+Computing...
+Computations finished, 3 path options available
+1: Quickest Path
+2: Quickest Path avoiding enemy attack areas and enemies
+3: Quickest Path avoiding enemy attack areas
+Which would you like to see:
+->1
+
+--Prints all the board out corresponding to the path--
+-Stops him/her along the way to press enter or such for a play by play-
+
+Would you like to see another path (-1 to exit):
+1:Quickest Path
+2: Quickest Path avoiding enemy attack areas and enemies
+3: Quickest Path avoiding enemy attack areas
+->-1
+Would you like to find a new path?
+->Yes
+
+
+Please enter the size of board you want:
+->5x10
+What kind of piece do you want to see the movement of:
+->Knight
+Where is the Knight located:
+->D3
+Please go one by one with all of them, -1 to exit:
+->King
+What Position is the king at:
+->G4
+Another enemy piece present:
+->Queen
+What position is the queen at:
+->A2
+Another enemy piece present:
+->-1
+
+What is the final destination of the Knight in question:
+->K2
+Computing...
+Computations finished, 3 path options available
+1: Quickest Path
+2: Quickest Path avoiding enemy attack areas and enemies
+3: Quickest Path avoiding enemy attack areas
+Which would you like to see:
+->2
+
+--Prints all the board out corresponding to the path--
+-Stops him/her along the way to press enter or such for a play by play-
+
+Would you like to see another path (-1 to exit):
+1:Quickest Path
+2: Quickest Path avoiding enemy attack areas and enemies
+3: Quickest Path avoiding enemy attack areas
+->3
+--Prints all the board out corresponding to the path--
+-Stops him/her along the way to press enter or such for a play by play-
+
+Would you like to see another path (-1 to exit):
+1:Quickest Path
+2: Quickest Path avoiding enemy attack areas and enemies
+3: Quickest Path avoiding enemy attack areas
+->-1
+Would you like to find a new path?
+->No
+Have a good day
+
+***************************************
+***************************************
+***************************************
+
+___PATH FINDING GAME___
+User: Beginner Puzzle dude
+
+What difficulty do you want to play?
+1: EASY
+2: Medium
+3: hard
+->1
+
+[Prints the board]
+---Simply gets through because it is easy mode with the minimum
+
+What difficulty do you want to play?
+1: EASY
+2: Medium
+3: hard
+->3 {He now feels confident because of the ease of easy}
+
+[Prints board that is impossible]
+->-1 (quits)
+Would you like to see the path or redo the puzzle?
+->See path
+[Prints path]
+Would you like to redo the path?
+->NO!!!!!!
+What difficulty do you want to play?
+1: EASY
+2: Medium
+3: hard
+->-1
+FIN
+
+
+
+User: CS Path finder Dude
+
+What difficulty do you want to play?
+1: EASY
+2: Medium
+3: hard
+->3
+
+[Prints board that is impossible]
+{doesnt solve it}
+Would you like to see the path or redo the puzzle?
+->Redo
+{gets it right}
+What difficulty do you want to play?
+1: EASY
+2: Medium
+3: hard
+->-1
+FIN
+
+********************************
+********************************
+********************************
+
+____KNIGHTS TOUR____
+
+User: CS AI dude
+
+How many rows do you want?
+->4
+How many Columns do you want?
+->6
+What position do you want the knight to start from?
+->D3
+Computing...
+Such a path does not exist...
+Do you want to see the attempted path, change the start position, or change the board size?
+->change
+How many rows do you want?
+->5
+How many Columns do you want?
+->6
+What position do you want the knight to start from?
+->D3
+Such a path does not exist...
+Do you want to see the attempted path, change the start position, or change the board size?
+->change
+How many rows do you want?
+->6
+How many Columns do you want?
+->6
+What position do you want the knight to start from?
+->D3
+A path exists
+Do you want to see the path, change the start position, or change the board size?
+->See the path
+[Prints board path]
+Do you want to see the path, change the start position, or change the board size?
+->-1
+FIN

@@ -1,3 +1,10 @@
+File Overview:
+.txt extensions are the overview files- documentation of sorts
+.h and .cpp are the code
+.png is the UML Diagram
+
+If there are any questions feel to contact me on Github
+
 Title: Walking fast, Dijkstras path, and Im Homebound
 
 Description: Path finding algorithm using chess pieces to have them not only
